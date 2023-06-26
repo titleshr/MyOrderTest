@@ -1,5 +1,7 @@
 const { test, expect, chromium } = require('@playwright/test');
-
+require('dotenv').config()
+const id = 'titlesaharat1@outlook.co.th';
+const pwd = 'title071041';
 test('edit-001 เมื่อเปิดหน้าแก้ไขข้อมูลคำสั่งซื้อ ทำการเปลี่ยนแปลงข้อมูล แต่ไม่ได้กดบันทึก ระบบจะไม่ทำการบันทึกข้อมูลที่ทำการแก้ไขลงไป', async () => {
   const browser = await chromium.launch({
     args: ["--ignore-certificate-errors"],
@@ -8,12 +10,12 @@ test('edit-001 เมื่อเปิดหน้าแก้ไขข้อ�
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto('https://www.myorder.ai/auth/login')
-  await page.locator('//*[@id="email-input"]').type('titlesaharat@outlook.co.th')
-  await page.locator('//*[@id="password-input"]').type('test123456')
+  await page.locator('//*[@id="email-input"]').type(id)
+  await page.locator('//*[@id="password-input"]').type(pwd)
   await page.locator('//*[@id="login-button"]').click()
-  await page.locator('//html/body/app-root/app-team-list/div/div[2]/div[2]/app-team-list-select/div/div[1]/app-team-box').click()
-  await page.locator('//*[@id="content-main-page"]/app-other-sell/div/div[2]/app-order-sell-table/div/div[2]/table/tbody/div/tr[1]/td[9]').click()
-  await page.getByRole('cell', { name: 'ดู แก้ไขคำสั่งซื้อ ลบ ' }).getByText('แก้ไขคำสั่งซื้อ').click();
+  await page.locator('//*[@id="64996737bc51d30011948ec0"]').click()
+  await page.getByText('ซีโอดี ทดสอบ').click();
+  await page.getByText('แก้ไขออเดอร์').click();
   await page.getByRole('button', { name: 'ยกเลิก' }).click();
 });
 
@@ -25,12 +27,12 @@ test('edit-002 เมื่อเปิดหน้าแก้ไขข้อ�
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://www.myorder.ai/auth/login')
-    await page.locator('//*[@id="email-input"]').type('titlesaharat@outlook.co.th')
-    await page.locator('//*[@id="password-input"]').type('test123456')
+    await page.locator('//*[@id="email-input"]').type(id)
+    await page.locator('//*[@id="password-input"]').type(pwd)
     await page.locator('//*[@id="login-button"]').click()
-    await page.locator('//html/body/app-root/app-team-list/div/div[2]/div[2]/app-team-list-select/div/div[1]/app-team-box').click()
-    await page.locator('//*[@id="content-main-page"]/app-other-sell/div/div[2]/app-order-sell-table/div/div[2]/table/tbody/div/tr[1]/td[9]').click()
-    await page.getByRole('cell', { name: 'ดู แก้ไขคำสั่งซื้อ ลบ ' }).getByText('แก้ไขคำสั่งซื้อ').click();
+    await page.locator('//*[@id="64996737bc51d30011948ec0"]').click();
+    await page.getByText('ซีโอดี ทดสอบ').click();
+    await page.getByText('แก้ไขออเดอร์').click();
     await page.getByPlaceholder('ระบุชื่อ - นามสกุล').fill('');
     await page.getByPlaceholder('เบอร์ติดต่อ').fill('');
     await page.getByPlaceholder('กรุณากรอกที่อยู่').fill('');
@@ -54,17 +56,18 @@ test('edit-002 เมื่อเปิดหน้าแก้ไขข้อ�
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://www.myorder.ai/auth/login')
-    await page.locator('//*[@id="email-input"]').type('titlesaharat@outlook.co.th')
-    await page.locator('//*[@id="password-input"]').type('test123456')
-    await page.locator('//*[@id="login-button"]').click()
-    await page.locator('//html/body/app-root/app-team-list/div/div[2]/div[2]/app-team-list-select/div/div[1]/app-team-box').click()
-    await page.pause()
-    await page.locator('//*[@id="content-main-page"]/app-other-sell/div/div[2]/app-order-sell-table/div/div[2]/table/tbody/div/tr[1]/td[9]').click()
-    await page.getByRole('cell', { name: 'ดู แก้ไขคำสั่งซื้อ ลบ ' }).getByText('แก้ไขคำสั่งซื้อ').click();
-    await page.getByPlaceholder('ระบุชื่อ - นามสกุล').fill('ทดสอบ ถูกต้อง');
-    await page.getByRole('button', { name: 'บันทึกรายการ' }).click();
-    const name = page.locator('//*[@id="table-name-label-0"]')
-    await expect(name).toHaveText('ทดสอบ ถูกต้อง')
+    await page.locator('//*[@id="email-input"]').type(id)
+    await page.locator('//*[@id="password-input"]').type(pwd)
+    await page.locator('//*[@id="login-button"]').click();
+    await page.locator('//*[@id="64996737bc51d30011948ec0"]').click()
+    await page.getByText('สินค้าระบบ ทดสอบ').click();
+    await page.getByText('แก้ไขออเดอร์').click();
+    await page.getByPlaceholder('ระบุชื่อ - นามสกุล').fill('ทดสอบ ถูกต้อง')
+    await page.getByRole('button', { name: 'บันทึกรายการ' }).click()
+    await page.waitForTimeout(1500)
+    const element = await page.$('p.text.customer-name:has-text("ทดสอบ ถูกต้อง")');
+    const text = await element.innerText();
+    await expect(text).toBe('ทดสอบ ถูกต้อง')
     const noti = page.locator('//*[@id="message-notify-0"]')
     await expect(noti).toHaveText('บันทึกรายการสำเร็จแล้ว')
   });
@@ -77,16 +80,18 @@ test('edit-002 เมื่อเปิดหน้าแก้ไขข้อ�
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://www.myorder.ai/auth/login')
-    await page.locator('//*[@id="email-input"]').type('titlesaharat@outlook.co.th')
-    await page.locator('//*[@id="password-input"]').type('test123456')
+    await page.locator('//*[@id="email-input"]').type(id)
+    await page.locator('//*[@id="password-input"]').type(pwd)
     await page.locator('//*[@id="login-button"]').click()
-    await page.locator('//html/body/app-root/app-team-list/div/div[2]/div[2]/app-team-list-select/div/div[1]/app-team-box').click()
-    await page.locator('//*[@id="content-main-page"]/app-other-sell/div/div[2]/app-order-sell-table/div/div[2]/table/tbody/div/tr[2]/td[9]').click()
-    await page.getByRole('cell', { name: 'ดู แก้ไขคำสั่งซื้อ ลบ ' }).getByText('แก้ไขคำสั่งซื้อ').click();
+    await page.locator('//*[@id="64996737bc51d30011948ec0"]').click()
+    await page.getByText('ช้อปปี้ ทดสอบ').click()
+    await page.getByText('แก้ไขออเดอร์').click()
     await page.getByPlaceholder('เบอร์ติดต่อ').fill('0800088080');
     await page.getByRole('button', { name: 'บันทึกรายการ' }).click();
-    const tel = page.locator('//*[@id="table-tel-label-1"]')
-    await expect(tel).toHaveText('080-008-8080')
+    await page.waitForTimeout(1500)
+    const element = await page.$('p.text:has-text("080-008-8080")');
+    const text = await element.innerText();
+    await expect(text).toBe('080-008-8080')
     const noti = page.locator('//*[@id="message-notify-0"]')
     await expect(noti).toHaveText('บันทึกรายการสำเร็จแล้ว')
   });
@@ -100,16 +105,18 @@ test('edit-002 เมื่อเปิดหน้าแก้ไขข้อ�
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://www.myorder.ai/auth/login')
-    await page.locator('//*[@id="email-input"]').type('titlesaharat@outlook.co.th')
-    await page.locator('//*[@id="password-input"]').type('test123456')
+    await page.locator('//*[@id="email-input"]').type(id)
+    await page.locator('//*[@id="password-input"]').type(pwd)
     await page.locator('//*[@id="login-button"]').click()
-    await page.locator('//html/body/app-root/app-team-list/div/div[2]/div[2]/app-team-list-select/div/div[1]/app-team-box').click()
-    await page.locator('//*[@id="content-main-page"]/app-other-sell/div/div[2]/app-order-sell-table/div/div[2]/table/tbody/div/tr[3]/td[9]').click()
-    await page.getByRole('cell', { name: 'ดู แก้ไขคำสั่งซื้อ ลบ ' }).getByText('แก้ไขคำสั่งซื้อ').click();
-    await page.locator('//*[@id="646f29d2ccc8060011236e49-add-amount"]').click();
+    await page.locator('//*[@id="64996737bc51d30011948ec0"]').click()
+    await page.getByText('ไม่มีสลิป ทดสอบ').click()
+    await page.getByText('แก้ไขออเดอร์').click()
+    await page.locator('//*[@id="increase-amount-64996831c9c8ee0013b0cc02"]').click();
     await page.getByRole('button', { name: 'บันทึกรายการ' }).click()
-    const product = page.locator('//*[@id="table-product-label-2"]')
-    await expect(product).toHaveText('ทดสอบ(2)')
+    await page.waitForTimeout(1500) //wait for update value
+    const element = await page.$(`p.text.product-name:has-text("แมวเหมียว(${process.env.ROUND})")`)
+    const text = await element.innerText();
+    await expect(text).toBe(`แมวเหมียว(${process.env.ROUND})`)
     const noti = page.locator('//*[@id="message-notify-0"]')
     await expect(noti).toHaveText('บันทึกรายการสำเร็จแล้ว')
   });
@@ -122,18 +129,19 @@ test('edit-002 เมื่อเปิดหน้าแก้ไขข้อ�
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://www.myorder.ai/auth/login')
-    await page.locator('//*[@id="email-input"]').type('titlesaharat@outlook.co.th')
-    await page.locator('//*[@id="password-input"]').type('test123456')
+    await page.locator('//*[@id="email-input"]').type(id)
+    await page.locator('//*[@id="password-input"]').type(pwd)
     await page.locator('//*[@id="login-button"]').click()
-    await page.locator('//html/body/app-root/app-team-list/div/div[2]/div[2]/app-team-list-select/div/div[1]/app-team-box').click()
-    await page.locator('//*[@id="content-main-page"]/app-other-sell/div/div[2]/app-order-sell-table/div/div[2]/table/tbody/div/tr[9]/td[9]').click()
-    await page.getByRole('cell', { name: 'ดู แก้ไขคำสั่งซื้อ ลบ ' }).getByText('แก้ไขคำสั่งซื้อ').click();
+    await page.locator('//*[@id="64996737bc51d30011948ec0"]').click()
+    await page.getByText('เทส').click()
+    await page.getByText('แก้ไขออเดอร์').click()
     await page.locator('//*[@id="select-payment-type-input"]/div').click()
     await page.getByRole('button', { name: 'ชำระเงินปลายทาง (COD)' }).click();
-    await page.pause()
     await page.getByRole('button', { name: 'บันทึกรายการ' }).click();
-    const product = page.locator('//*[@id="table-balance-type-label-8"]')
-    await expect(product).toHaveText(' 100 (COD)')
+    await page.waitForTimeout(2000);
+    const element = await page.$('p.text[id^="table-balance-type-label-"]:has-text(" 100 (COD)")')
+    const text = await element.innerHTML();
+    await expect(text).toBe(' 100 (COD)')
     const noti = page.locator('//*[@id="message-notify-0"]')
     await expect(noti).toHaveText('บันทึกรายการสำเร็จแล้ว')
   });
@@ -141,21 +149,23 @@ test('edit-002 เมื่อเปิดหน้าแก้ไขข้อ�
   test('edit-007 เมื่อทำการแก้ไขข้อมูลค่าส่ง ระบบจะสามารถแสดงยอดเงินบนรายการคำสั่งซื้อได้ถูกต้อง', async () => {
     const browser = await chromium.launch({
       args: ["--ignore-certificate-errors"],
-      headless: false,
+      headless: true,
     });
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://www.myorder.ai/auth/login')
-    await page.locator('//*[@id="email-input"]').type('titlesaharat@outlook.co.th')
-    await page.locator('//*[@id="password-input"]').type('test123456')
+    await page.locator('//*[@id="email-input"]').type(id)
+    await page.locator('//*[@id="password-input"]').type(pwd)
     await page.locator('//*[@id="login-button"]').click()
-    await page.locator('//html/body/app-root/app-team-list/div/div[2]/div[2]/app-team-list-select/div/div[1]/app-team-box').click()
-    await page.locator('//*[@id="content-main-page"]/app-other-sell/div/div[2]/app-order-sell-table/div/div[2]/table/tbody/div/tr[9]/td[9]').click()
-    await page.getByRole('cell', { name: 'ดู แก้ไขคำสั่งซื้อ ลบ ' }).getByText('แก้ไขคำสั่งซื้อ').click();
+    await page.locator('//*[@id="64996737bc51d30011948ec0"]').click()
+    await page.getByText('โอนเงิน ทดสอบ').click()
+    await page.getByText('แก้ไขออเดอร์').click()
     await page.locator('#customer-express-price-input').fill('10');
     await page.getByRole('button', { name: 'บันทึกรายการ' }).click();
-    const product = page.locator('//*[@id="table-balance-type-label-8"]')
-    await expect(product).toHaveText('110 (COD)')
+    await page.waitForTimeout(1500)
+    const element = await page.$('p.text[id^="table-balance-type-label-"]:has-text(" 11 (BANK)")')
+    const text = await element.innerHTML();
+    await expect(text).toBe(' 11 (BANK)')
     const noti = page.locator('//*[@id="message-notify-0"]')
     await expect(noti).toHaveText('บันทึกรายการสำเร็จแล้ว')
   });
@@ -168,17 +178,18 @@ test('edit-008 เมื่อทำการแก้ไขข้อมูล�
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://www.myorder.ai/auth/login')
-    await page.locator('//*[@id="email-input"]').type('titlesaharat@outlook.co.th')
-    await page.locator('//*[@id="password-input"]').type('test123456')
+    await page.locator('//*[@id="email-input"]').type(id)
+    await page.locator('//*[@id="password-input"]').type(pwd)
     await page.locator('//*[@id="login-button"]').click()
-    await page.locator('//html/body/app-root/app-team-list/div/div[2]/div[2]/app-team-list-select/div/div[1]/app-team-box').click()
-    await page.locator('//*[@id="content-main-page"]/app-other-sell/div/div[2]/app-order-sell-table/div/div[2]/table/tbody/div/tr[6]/td[9]').click()
-    await page.getByRole('cell', { name: 'ดู แก้ไขคำสั่งซื้อ ลบ ' }).getByText('แก้ไขคำสั่งซื้อ').click();
+    await page.locator('//*[@id="64996737bc51d30011948ec0"]').click()
+    await page.getByText('ทดสอบลดราคา').click()
+    await page.getByText('แก้ไขออเดอร์').click()
     await page.locator('#customer-discount-input').fill('20');
     await page.getByRole('button', { name: 'บันทึกรายการ' }).click();
-    const product = page.locator('//*[@id="table-balance-type-label-5"]')
-    await expect(product).toHaveText(' 80 (BANK)')
+    await page.waitForTimeout(1500)
+    const element = await page.$('p.text[id^="table-balance-type-label-"]:has-text(" 80.12 (BANK)")')
+    const text = await element.innerHTML();
+    await expect(text).toBe(' 80.12 (BANK)')
     const noti = page.locator('//*[@id="message-notify-0"]')
     await expect(noti).toHaveText('บันทึกรายการสำเร็จแล้ว')
   });
-
